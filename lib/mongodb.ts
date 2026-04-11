@@ -15,6 +15,7 @@ export async function connectDB(): Promise<typeof mongoose> {
   if (!global.mongooseConnPromise) {
     global.mongooseConnPromise = mongoose.connect(MONGODB_URI, {
       dbName: MONGODB_DB_NAME,
+      directConnection: true,
     });
   }
 

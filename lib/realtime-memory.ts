@@ -12,9 +12,9 @@ import { MemoryEntry, type IMemoryEntry, type MemoryMode } from "@/models/Memory
 import type { MemoryExtractionResult } from "@/types/agents";
 
 const RollingSummarySchema = z.object({
-  summary: z.string().min(1).max(1200),
-  keyDecisions: z.array(z.string().min(1)).max(8),
-  riskSignals: z.array(z.string().min(1)).max(8),
+  summary: z.string(),
+  keyDecisions: z.array(z.string()),
+  riskSignals: z.array(z.string()),
 });
 
 type RollingSummaryResult = z.infer<typeof RollingSummarySchema>;

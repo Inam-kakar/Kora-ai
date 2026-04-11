@@ -6,7 +6,7 @@ import { MEMORY_EXTRACTION_PROMPT } from "@/lib/prompts";
 import type { MemoryExtractionResult } from "@/types/agents";
 
 const MemoryExtractionSchema = z.object({
-  themes: z.array(z.string()).max(5),
+  themes: z.array(z.string()),
   emotions: z.object({
     primary: z.enum([
       "stress",
@@ -18,21 +18,21 @@ const MemoryExtractionSchema = z.object({
       "guilt",
       "hope",
     ]),
-    intensity: z.number().min(0).max(1),
+    intensity: z.number(),
     markers: z.array(z.string()),
   }),
   decisionPoints: z.array(
     z.object({
-      type: z.enum(["investment", "loan", "purchase", "gift", "avoid", "other"]),
-      amount: z.number().optional(),
-      currency: z.string().optional(),
-      counterparty: z.string().optional(),
-      deadline: z.string().optional(),
+      type: z.string(),
+      amount: z.number().nullable().optional(),
+      currency: z.string().nullable().optional(),
+      counterparty: z.string().nullable().optional(),
+      deadline: z.string().nullable().optional(),
       summary: z.string(),
     })
   ),
-  stressScore: z.number().min(0).max(1),
-  summary: z.string().max(200),
+  stressScore: z.number(),
+  summary: z.string(),
 });
 
 export async function runMemoryAgent(

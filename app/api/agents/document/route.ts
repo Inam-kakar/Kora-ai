@@ -7,6 +7,9 @@ import { rateLimit } from "@/lib/rate-limit";
 
 const RequestSchema = z.object({
   year: z.number().int().min(2000).max(2100).optional(),
+  category: z.string().optional(),
+  documentType: z.string().optional(),
+  useMemory: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest): Promise<Response> {
@@ -34,7 +37,11 @@ export async function POST(req: NextRequest): Promise<Response> {
 
   try {
     const year = parsed.data.year ?? new Date().getUTCFullYear();
-    const result = await runYearlyDocumentPipeline(session.user.id, year);
+    const result = await runYearlyDocumentPipeline(session.user.id, year, {
+      category: parsed.data.category,
+      documentType: parsed.data.documentType,
+      useMemory: parsed.data.useMemory,
+    });
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(

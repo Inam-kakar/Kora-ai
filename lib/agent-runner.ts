@@ -68,7 +68,7 @@ export async function runCheckinPipeline(
   try {
     similarMemories = await findSimilarMemories(userId, sanitizedTranscript, {
       limit: 20,
-      minScore: 0.75,
+      minScore: 0.20,
     });
   } catch (error) {
     logAgentError(userId, "findSimilarMemories", error);
@@ -152,24 +152,30 @@ export async function runCheckinPipeline(
 
 export async function runYearlyDocumentPipeline(
   userId: string,
-  year: number
+  year: number,
+  config?: { category?: string; documentType?: string; useMemory?: boolean }
 ): Promise<DocumentResult> {
   await connectDB();
 
   const yearStart = new Date(Date.UTC(year, 0, 1));
   const yearEnd = new Date(Date.UTC(year + 1, 0, 1));
 
-  const [entries, patterns, alerts] = await Promise.all([
-    MemoryEntry.find({ userId, createdAt: { $gte: yearStart, $lt: yearEnd } }, { embedding: 0 })
-      .sort({ createdAt: 1 })
-      .lean(),
-    Pattern.find({ userId }).sort({ updatedAt: -1 }).lean(),
-    TriggerAlert.find({ userId, createdAt: { $gte: yearStart, $lt: yearEnd } })
-      .sort({ createdAt: -1 })
-      .lean(),
-  ]);
+  let summaryData: any = {};
 
-  return runDocumentAgent(userId, year, { entries, patterns, alerts });
+  if (!config || config.useMemory !== false) {
+    const [entries, patterns, alerts] = await Promise.all([
+      MemoryEntry.find({ userId, createdAt: { $gte: yearStart, $lt: yearEnd } }, { embedding: 0 })
+        .sort({ createdAt: 1 })
+        .lean(),
+      Pattern.find({ userId }).sort({ updatedAt: -1 }).lean(),
+      TriggerAlert.find({ userId, createdAt: { $gte: yearStart, $lt: yearEnd } })
+        .sort({ createdAt: -1 })
+        .lean(),
+    ]);
+    summaryData = { entries, patterns, alerts };
+  }
+
+  return runDocumentAgent(userId, year, summaryData, config);
 }
 
 export async function runDecisionResearch(

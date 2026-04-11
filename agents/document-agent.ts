@@ -20,13 +20,14 @@ const DocumentSchema = z.object({
 export async function runDocumentAgent(
   userId: string,
   year: number,
-  summaryData: object
+  summaryData: object,
+  config?: { category?: string; documentType?: string; useMemory?: boolean }
 ): Promise<DocumentResult> {
   const { object } = await generateObject({
     model: geminiPro(),
     schema: DocumentSchema,
-    system: DOCUMENT_AGENT_PROMPT,
-    prompt: JSON.stringify({ userId, year, summaryData }),
+    system: DOCUMENT_AGENT_PROMPT + `\n\nIf the user specifies a particular category or documentType, format the response according to standard templates for that category (e.g. Legal contracts, Financial Balance Sheets) rather than forcing an Annual Review format.`,
+    prompt: JSON.stringify({ userId, year, summaryData, config }),
     providerOptions: {
       vertex: {
         streamFunctionCallArguments: false,

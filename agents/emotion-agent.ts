@@ -10,7 +10,7 @@ const EmotionSchema = z.object({
   overconfidenceRisk: z.boolean(),
   impulsivityRisk: z.boolean(),
   recommendedTone: z.enum(["calm", "warm", "grounded", "urgent"]),
-  adjustedStressScore: z.number().min(0).max(1),
+  adjustedStressScore: z.number(),
 });
 
 export async function runEmotionAgent(

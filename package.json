@@ -15,6 +15,8 @@
     "@elevenlabs/react": "^1.1.0",
     "@hookform/resolvers": "^5.2.2",
     "ai": "^6.0.158",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.8.0",
     "mongodb": "^7.1.1",
     "mongoose": "^9.4.1",
     "next": "16.2.3",

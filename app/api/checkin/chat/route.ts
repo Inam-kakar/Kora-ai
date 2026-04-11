@@ -142,8 +142,10 @@ export async function POST(req: NextRequest): Promise<Response> {
     // Fetch memories and finance data in parallel to reduce pre-LLM latency
     const [relevantMemories, financeSnapshot] = await Promise.allSettled([
       findSimilarMemories(session.user.id, parsed.data.message, {
-        limit: 8,
-        minScore: 0.65,
+        limit: 15,
+        minScore: 0.20,
+        includeRollingSummary: true,
+        sessionId: parsed.data.sessionId,
       }),
       getFinanceSnapshot(parsed.data.message),
     ]);
@@ -181,7 +183,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       ? `\n\n## Retrieved memory context (${memories.length} relevant entries)\nUse these to personalise your answer — reference dates and specifics when helpful:\n${memories
           .map(
             (memory, index) =>
-              `[${index + 1}] ${new Date(memory.createdAt).toISOString().slice(0, 10)} | score ${memory.score.toFixed(2)} | themes: ${(memory.themes ?? []).join(", ") || "—"}\n    ${memory.summary}`
+              `[${index + 1}] ${new Date(memory.createdAt).toISOString().slice(0, 10)} | score ${memory.score.toFixed(2)} | themes: ${(memory.themes ?? []).join(", ") || "—"}\n    ${memory.transcript}`
           )
           .join("\n")}`
       : "";

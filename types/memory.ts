@@ -8,13 +8,7 @@ export type EmotionPrimary =
   | "guilt"
   | "hope";
 
-export type DecisionType =
-  | "investment"
-  | "loan"
-  | "purchase"
-  | "gift"
-  | "avoid"
-  | "other";
+export type DecisionType = string;
 
 export interface MemoryEmotion {
   primary: EmotionPrimary;
