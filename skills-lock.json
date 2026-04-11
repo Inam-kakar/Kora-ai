@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "frontend-design": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "a96704c64a0f8850d44454f95ea1238a75ebac909cb055614c641f903e297f3a"
+    },
+    "nextjs": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "e275a4e03a46cfcae406a3dd8b620d7dd3e45411e53222adaf4e33e568032b66"
+    },
+    "vector-databases": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "6a5d3bd0b3d28a7062e53b85c94753f200aca8561e7b0349167247ef349004e5"
+    },
+    "zod-4": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "74c140363ea586fcb92644559862ce181af16f4644a41db14722323421bbfc00"
+    }
+  }
+}
