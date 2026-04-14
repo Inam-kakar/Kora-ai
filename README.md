@@ -42,3 +42,11 @@ graph TD
     D --> E[Gemini AI Agent]
     E --> F[Structured JSON Output]
     F --> G[Ranked Candidate List]
+
+
+    graph LR
+    A[User Voice Check-in] --> B[ElevenLabs / STT]
+    B --> C[Vertex AI Reasoning]
+    C --> D[(MongoDB Vector Search)]
+    D --> E[Pattern Detection Agent]
+    E --> F[Proactive Voice Alert]
